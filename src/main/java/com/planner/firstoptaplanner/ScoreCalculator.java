@@ -15,9 +15,9 @@ public class ScoreCalculator implements EasyScoreCalculator<AudienciaSchedule> {
         int softScore = 0;
 
         HashSet<String> occupiedRooms = new HashSet<>();
-        for (Audiencia audiencia: audienciaSchedule.getAudienciaList()) {
-            if(audiencia.getPeriod() != null && audiencia.getRoom() != null) {
-                String roomInUse = audiencia.getPeriod().toString() + ":" + audiencia.getRoom().toString();
+        for (AudienciaAssignment audienciaAssignment : audienciaSchedule.getAudienciaAssignmentList()) {
+            if(audienciaAssignment.getPeriod() != null && audienciaAssignment.getRoom() != null) {
+                String roomInUse = audienciaAssignment.getPeriod().toString() + ":" + audienciaAssignment.getRoom().toString();
                 if (occupiedRooms.contains(roomInUse)) {
                     hardScore += -1;
                 } else {

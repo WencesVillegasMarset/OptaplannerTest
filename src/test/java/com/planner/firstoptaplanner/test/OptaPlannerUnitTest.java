@@ -1,7 +1,7 @@
 package com.planner.firstoptaplanner.test;
 
 //import com.planner.firstoptaplanner.AudienciaSchedule;
-//import com.planner.firstoptaplanner.Audiencia;
+//import com.planner.firstoptaplanner.AudienciaAssignment;
 //import com.planner.firstoptaplanner.Timeslot;
 import com.planner.firstoptaplanner.*;
 
@@ -9,7 +9,6 @@ import org.junit.Assert;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.optaplanner.core.api.solver.Solver;
-import java.util.Arrays;
 import org.optaplanner.core.api.solver.SolverFactory;
 
 public class OptaPlannerUnitTest {
@@ -22,7 +21,7 @@ public class OptaPlannerUnitTest {
         unsolvedAudienciaSchedule = new AudienciaSchedule();
 
         for(int i = 0; i < 10; i++){
-            unsolvedAudienciaSchedule.get().add(new Audiencia());
+            unsolvedAudienciaSchedule.get().add(new AudienciaAssignment());
         }
         List<Room> roomList = new List()<>;
         for (int i = 0; i < 4; i++) {

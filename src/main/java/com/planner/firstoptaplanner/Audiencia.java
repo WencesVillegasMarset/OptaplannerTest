@@ -1,32 +1,37 @@
 package com.planner.firstoptaplanner;
 
-import org.optaplanner.core.api.domain.entity.PlanningEntity;
-import org.optaplanner.core.api.domain.variable.PlanningVariable;
-
-@PlanningEntity
 public class Audiencia {
-    private Room room;
-    private Timeslot period;
+    private int id;
+    private int num_periods;
+    private Juez juez;
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public Audiencia(int id, int num_periods, Juez juez){
+        this.id = id;
+        this.num_periods = num_periods;
+        this.juez = juez;
     }
 
-    public void setPeriod(Timeslot period) {
-        this.period = period;
+    public int getId() {
+        return id;
     }
 
-    @PlanningVariable(valueRangeProviderRefs = {"availablePeriods"})
-    public Timeslot getPeriod() {
-        return period;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    @PlanningVariable(valueRangeProviderRefs = {"availableRooms"})
-    public Room getRoom() {
-        return room;
+    public int getNum_periods() {
+        return num_periods;
     }
 
+    public void setNum_periods(int num_periods) {
+        this.num_periods = num_periods;
+    }
 
+    public Juez getJuez() {
+        return juez;
+    }
 
-
+    public void setJuez(Juez juez) {
+        this.juez = juez;
+    }
 }

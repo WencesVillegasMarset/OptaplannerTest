@@ -1,13 +1,14 @@
 package com.planner.firstoptaplanner;
 
+import org.optaplanner.core.api.domain.constraintweight.ConstraintConfigurationProvider;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
+import org.optaplanner.core.api.score.buildin.hardmediumsoft.HardMediumSoftScore;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,47 +16,88 @@ import java.util.List;
 @PlanningSolution
 public class AudienciaSchedule {
 
-    private List<Room> roomList;
-    private List<Timeslot> timeslotList;
-    private List<Audiencia> audienciaList;
-    private HardSoftScore score;
+    @ConstraintConfigurationProvider
+    private AudienciaConstraintConfiguration constraintConfiguration;
 
-    public AudienciaSchedule(){
-        roomList = new ArrayList<>();
-        timeslotList = new ArrayList<>();
-        audienciaList = new ArrayList<>();
+    @ProblemFactCollectionProperty
+    private List<Audiencia> audienciaList;
+    @ProblemFactCollectionProperty
+    private List<Day> dayList;
+    @ValueRangeProvider(id = "timeGrainRange")
+    @ProblemFactCollectionProperty
+    private List<TimeGrain> timeGrainList;
+    @ValueRangeProvider(id = "roomRange")
+    @ProblemFactCollectionProperty
+    private List<Room> roomList;
+    @ProblemFactCollectionProperty
+
+    @PlanningEntityCollectionProperty
+    private List<AudienciaAssignment> audienciaAssignmentList;
+
+    @PlanningScore
+    private HardMediumSoftScore score;
+
+    public AudienciaConstraintConfiguration getConstraintConfiguration() {
+        return constraintConfiguration;
     }
 
-    @ValueRangeProvider(id = "availableRooms")
-    @ProblemFactCollectionProperty
+    public void setConstraintConfiguration(AudienciaConstraintConfiguration constraintConfiguration) {
+        this.constraintConfiguration = constraintConfiguration;
+    }
+
+    public List<Audiencia> getAudienciaList() {
+        return audienciaList;
+    }
+
+    public void setAudienciaList(List<Audiencia> audienciaList) {
+        this.audienciaList = audienciaList;
+    }
+
+    public List<Day> getDayList() {
+        return dayList;
+    }
+
+    public void setDayList(List<Day> dayList) {
+        this.dayList = dayList;
+    }
+
+    public List<TimeGrain> getTimeGrainList() {
+        return timeGrainList;
+    }
+
+    public void setTimeGrainList(List<TimeGrain> timeGrainList) {
+        this.timeGrainList = timeGrainList;
+    }
+
     public List<Room> getRoomList() {
         return roomList;
     }
 
-    @ValueRangeProvider(id = "availablePeriods")
-    @ProblemFactCollectionProperty
-    public List<Timeslot> getTimeslotList() {
-        return timeslotList;
+    public void setRoomList(List<Room> roomList) {
+        this.roomList = roomList;
     }
 
-    @PlanningEntityCollectionProperty
-    public List<Audiencia> getAudienciaList() {
-        return audienciaList;
+    public List<AudienciaAssignment> getAudienciaAssignmentList() {
+        return audienciaAssignmentList;
     }
-    @PlanningScore
-    public HardSoftScore getScore() {
+
+    public void setAudienciaAssignmentList(List<AudienciaAssignment> audienciaAssignmentList) {
+        this.audienciaAssignmentList = audienciaAssignmentList;
+    }
+
+    public HardMediumSoftScore getScore() {
         return score;
     }
 
-    public void setScore(HardSoftScore score) {
+    public void setScore(HardMediumSoftScore score) {
         this.score = score;
     }
 
     @Override
     public String toString() {
         String response = new String();
-        for (Audiencia audiencia: this.getAudienciaList()) {
-            response += "TimeSlot: " + audiencia.getPeriod().getTimeSlotID() +  " and room: " + audiencia.getRoom().getNumber() + '\n';
+        for (AudienciaAssignment audienciaAssignment : this.getAudienciaAssignmentList()) {
+            response += "TimeSlot: " + audienciaAssignment.getStartingTimeGrain().getDateTimeString() +  " and room: " + audienciaAssignment.getRoom().getNumber() + '\n';
         }
         return  response;
     }
